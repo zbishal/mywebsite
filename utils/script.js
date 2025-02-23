@@ -4,11 +4,11 @@ function onYouTubeIframeAPIReady() {
     player = new YT.Player('player', {
         height: '0',
         width: '0',
-        videoId: 'tF4z5kntXAA', //this is ithe youtube video ID btw
+        videoId: 'fcNtHofHqY4',
         playerVars: {
-            autoplay: 1, 
+            autoplay: 0,
             loop: 1,
-            playlist: 'tF4z5kntXAA', //for the loop
+            playlist: 'fcNtHofHqY4',
             controls: 0,
             showinfo: 0,
             modestbranding: 1
@@ -26,25 +26,58 @@ function onPlayerReady(event) {
     volumeSlider.addEventListener('input', () => {
         player.setVolume(volumeSlider.value);
     });
-    event.target.playVideo();
+
+    setTimeout(() => {
+        event.target.playVideo();
+    }, 3000);
+
+    document.querySelectorAll('.nav-link, .navbar-brand, footer a').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const currentTime = player.getCurrentTime();
+            sessionStorage.setItem('audioTime', currentTime);
+            document.body.style.opacity = '0';
+            setTimeout(() => {
+                window.location.href = link.getAttribute('href');
+            }, 300);
+        });
+    });
 }
 
 function onPlayerStateChange(event) {
-    const audioMessage = document.getElementById('audioMessage');
-    
-    if (event.data === YT.PlayerState.PLAYING) {
-        audioMessage.classList.remove('visible'); 
-    } else if (event.data === YT.PlayerState.UNSTARTED || event.data === YT.PlayerState.PAUSED) {
-        audioMessage.classList.add('visible'); 
-    }
-    
     if (event.data === YT.PlayerState.ENDED) {
-        player.playVideo(); 
+        player.playVideo();
     }
 }
 
-window.onbeforeunload = function() {
-    if (player) {
-        player.stopVideo(); 
+window.addEventListener('load', () => {
+    document.body.style.transition = 'opacity 0.5s ease';
+    document.body.style.opacity = '1';
+    const savedTime = sessionStorage.getItem('audioTime');
+    if (savedTime && player) {
+        player.seekTo(parseFloat(savedTime), true);
+        setTimeout(() => {
+            player.playVideo();
+        }, 3000);
     }
-};
+});
+
+window.addEventListener('scroll', () => {
+    if (window.scrollY > 50) {
+        document.querySelector('.navbar').style.background = 'rgba(0, 0, 0, 0.7)';
+    } else {
+        document.querySelector('.navbar').style.background = 'transparent';
+    }
+});
+
+window.addEventListener('pageshow', (event) => {
+    if (event.persisted && player) {
+        const savedTime = sessionStorage.getItem('audioTime');
+        if (savedTime) {
+            player.seekTo(parseFloat(savedTime), true);
+            setTimeout(() => {
+                player.playVideo();
+            }, 3000);
+        }
+    }
+});
