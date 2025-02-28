@@ -1,13 +1,13 @@
 @font-face {
     font-family: 'Panton-BlackCaps';
-    src: url('fonts/pBC.woff2') format('woff2');
+    src: url('../fonts/pBC.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'CircularStd-Bold';
-    src: url('fonts/cSTD.woff2') format('woff2');
+    src: url('../fonts/cSTD.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
 }
@@ -19,126 +19,131 @@
 }
 
 body {
-    color: #FFFFFF;
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url('../images/nepalmtn.jpg') no-repeat center center fixed;
+    color: #fff;
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('../images/nepalmtn.jpg') no-repeat center center fixed;
     background-size: cover;
-    background-attachment: fixed;
-    height: 100vh;
-    overflow: hidden;
-    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
     font-family: 'CircularStd-Bold', sans-serif;
+    transition: opacity 0.5s ease;
 }
 
-body::before {
+.projects {
+    background: rgb(0, 2, 6);
+    color: #fff;
+    padding: 9rem 0 6rem;
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+}
+
+/* Smooth-ass fade, fuck yeah */
+.projects::before {
     content: '';
     position: absolute;
-    top: 0;
+    top: -100px;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: url('https://via.placeholder.com/100') repeat;
-    opacity: 0.05;
-    pointer-events: none;
+    height: 100px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgb(0, 2, 6));
+    z-index: 1;
+    transition: opacity 0.5s ease;
+}
+
+/* Fancy transparent scrollbar, bitches */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent; /* Invisible track, sexy as hell */
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2); /* Subtle white, not too in-your-face */
+    border-radius: 5px;
+    border: 2px solid transparent; /* Gives it a sleek edge */
+    background-clip: padding-box; /* Keeps it crisp */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5); /* Brightens up when you tease it */
+    border: 2px solid transparent;
+    background-clip: padding-box;
 }
 
 .navbar {
     padding: 1rem 0;
-    background: transparent;
 }
 
 .navbar-brand {
     font-family: 'Panton-BlackCaps', sans-serif;
-    font-size: 2.5rem;
-    font-weight: bold;
+    font-size: 3rem;
     letter-spacing: 3px;
-    color: #FFFFFF;
-    text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
-    transition: transform 0.3s ease;
+    color: #fff;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.navbar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    transition: transform 0.5s ease-out;
+}
+
+body.scrolled .navbar-container {
+    transform: translateX(-35%);
+    align-items: flex-start;
+}
+
+@keyframes pop {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+body.scrolled .navbar-brand {
+    animation: pop 0.5s ease-out forwards;
+}
+
+body.scrolling .navbar-brand {
+    opacity: 0; /* Hides this fucker while scrolling */
 }
 
 .navbar-brand:hover {
     transform: scale(1.05);
 }
 
-.nav-link {
-    font-family: 'CircularStd-Bold', sans-serif;
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin-left: 2rem;
-    color: #FFFFFF;
-    transition: color 0.3s ease;
-    position: relative;
+.quote-container {
+    transition: opacity 0.5s ease;
 }
 
-.nav-link::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    bottom: -5px;
-    left: 0;
-    transition: border-color 0.3s ease;
-}
-
-.nav-link.active::after {
-    border-color: #DD1C26;
-}
-
-.nav-link:hover, .nav-link.active {
-    color: #DD1C26;
-}
-
-.navbar-toggler {
-    transition: transform 0.3s ease;
-}
-
-.navbar-toggler[aria-expanded="true"] {
-    transform: rotate(90deg);
-}
-
-.volume-control-bottom {
-    position: absolute;
-    bottom: 0;
-    right: 20px;
-}
-
-.form-range {
-    background: rgba(255, 255, 255, 0.2);
-    height: 5px;
-    border-radius: 5px;
-    width: 120px;
-}
-
-.form-range::-webkit-slider-thumb {
-    width: 14px;
-    height: 14px;
-    background: #DD1C26;
-    border-radius: 50%;
-    box-shadow: 0 0 5px #DD1C26;
-    cursor: pointer;
-}
-
-main {
-    padding-top: 70px;
-}
-
-.neon-title {
-    font-family: 'CircularStd-Bold', sans-serif;
-    font-size: 4rem;
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
-    color: #FFFFFF;
-    animation: slideIn 1s ease-out;
-}
-
-.subtitle {
+.quote {
     font-family: 'Caveat', cursive;
-    font-size: 1.6rem;
-    text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
-    color: #FFFFFF;
-    animation: slideIn 1s ease-out 0.5s;
-    animation-fill-mode: backwards;
+    font-size: 1.8rem;
+    color: #fff;
+    margin: 0;
+}
+
+.hero {
+    height: 100vh;
+    padding-top: 100px;
+    position: relative;
+    z-index: 0;
+}
+
+.display-1 {
+    font-size: 6rem;
+}
+
+.about-me {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.2rem;
+    color: #ddd;
+    max-width: 600px;
+    margin: 1rem auto 0;
+    line-height: 1.6;
 }
 
 .social-links {
@@ -147,111 +152,150 @@ main {
 }
 
 .social-btn {
-    color: #FFFFFF;
-    width: 50px;
-    height: 50px;
+    width: 60px;
+    height: 60px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s ease;
+    transition: all 0.4s ease;
 }
 
 .social-btn:hover {
     background: #DD1C26;
-    transform: scale(1.2);
-    box-shadow: 0 0 15px rgba(221, 28, 38, 0.5);
+    transform: scale(1.2) rotate(360deg);
+    box-shadow: 0 0 25px rgba(221, 28, 38, 0.8);
 }
 
-footer {
-    font-family: 'CircularStd-Bold', sans-serif;
-    font-size: 0.9rem;
+.scroll-btn {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    gap: 0.5rem;
     background: transparent;
-}
-
-footer a {
-    flex-grow: 1;
-    text-align: center;
-    color: #FFFFFF;
-}
-
-footer a:hover {
-    color: #DD1C26;
-}
-
-.card {
-    background: #003893;
-    height: 200px;
-    color: #FFFFFF;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    padding: 0.75rem 2rem;
+    border-radius: 50px;
+    color: #fff;
+    font-family: 'CircularStd-Bold', sans-serif;
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 10px;
+    transition: all 0.4s ease;
+    position: relative;
     overflow: hidden;
 }
 
-.card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-}
-
-.card-link {
-    text-decoration: none;
-    display: block;
+.scroll-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
     width: 100%;
     height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    transition: left 0.4s ease;
+    z-index: 0;
+}
+
+.scroll-btn:hover::before {
+    left: 0;
+}
+
+.scroll-btn:hover {
+    border-color: #DD1C26;
+    color: #DD1C26;
+    box-shadow: 0 0 20px rgba(221, 28, 38, 0.5);
+    transform: translateY(-5px);
+}
+
+.scroll-btn span, .scroll-btn svg {
+    position: relative;
+    z-index: 1;
+}
+
+.scroll-btn svg {
+    transition: transform 0.4s ease;
+}
+
+.scroll-btn:hover svg {
+    transform: translateY(5px);
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    opacity: 0;
+    margin-top: 2rem;
+}
+
+.card.visible {
+    opacity: 1;
+    animation: slideUp 0.6s ease-out forwards;
+}
+
+.card:hover {
+    transform: translateY(-15px) scale(1.05);
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+}
+
+.card-img-top {
+    height: 180px;
+    object-fit: cover;
+    transition: filter 0.4s ease;
+}
+
+.card:hover .card-img-top {
+    filter: brightness(1.1);
 }
 
 .card-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100%;
-    font-family: 'CircularStd-Bold', sans-serif;
-    padding: 20px;
+    padding: 2rem;
     text-align: center;
 }
 
 .card-title {
-    font-family: 'CircularStd-Bold', sans-serif;
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: #fff;
 }
 
 .card-text {
-    color: #FFFFFF;
-    font-size: 1rem;
+    font-size: 1.1rem;
+    color: #ccc;
 }
 
-@keyframes fadeIn {
-    0% { opacity: 0; transform: translateY(-20px); }
-    100% { opacity: 1; transform: translateY(0); }
+footer {
+    padding: 1rem 0;
+    z-index: 1000;
 }
 
-@keyframes pulse {
-    0% { opacity: 0.6; }
-    50% { opacity: 1; }
-    100% { opacity: 0.6; }
+footer a {
+    transition: color 0.5s ease;
 }
 
-@keyframes slideIn {
-    0% { opacity: 0; transform: translateX(-50px); }
-    100% { opacity: 1; transform: translateX(0); }
+body.scrolled footer a {
+    color: #fff;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(60px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 @media (max-width: 768px) {
-    h1 { font-size: 2.5rem; }
-    h2 { font-size: 2rem; }
-    .subtitle { font-size: 1.2rem; }
-    .social-btn { width: 40px; height: 40px; }
-    .navbar-brand { font-size: 1.8rem; }
-    .form-range { width: 80px; }
-    .nav-link { margin-left: 1rem; }
-    .volume-control-bottom { right: 10px; }
+    .navbar-brand { font-size: 2rem; }
+    .display-1 { font-size: 4rem; }
+    .about-me { font-size: 1rem; max-width: 90%; }
+    .quote { font-size: 1.3rem; }
+    .social-btn { width: 50px; height: 50px; }
+    .scroll-btn { font-size: 1rem; padding: 0.5rem 1.5rem; }
+    .card-title { font-size: 1.5rem; }
+    .card-text { font-size: 1rem; }
+    .projects { padding-top: 7rem; }
+    .card { margin-top: 1.5rem; }
+    body.scrolled .navbar-container { transform: translateX(-25%); }
+    .projects::before { height: 80px; top: -80px; }
 }
